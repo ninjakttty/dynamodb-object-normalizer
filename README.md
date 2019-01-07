@@ -35,14 +35,14 @@ console.log(normalize(item));
      coworkers: [ 'Frank', 'Gary', 'Mark' ] } }
 */
 
-console.log(normalize(item, { replaceWith: 'empty' }));
+console.log(normalize(item, { replaceWith: null }));
 /*
 { firstName: 'Yuri',
-  lastName: 'empty',
+  lastName: null,
   age: 23,
   job:
    { title: 'developer',
-     eprop: 'empty',
+     eprop: null,
      rank: 10,
      coworkers: [ 'Frank', 'Gary', 'Mark' ] } }
 */
