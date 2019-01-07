@@ -1,37 +1,60 @@
-# NPM Module Boilerplate
+# Dynamodb object normalizer
 
-[![Build Status](https://travis-ci.org/flexdinesh/npm-module-boilerplate.svg?branch=master)](https://travis-ci.org/flexdinesh/npm-module-boilerplate) [![dependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate) [![devDependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/dev-status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate?type=dev) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/ninjakttty/dynamodb-object-normalizer.svg?branch=master)](https://travis-ci.org/flexdinesh/npm-module-boilerplate)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-**Start developing your NPM module in seconds** ✨
+**Normalize JS objects for dynamodb insertion** ✨
 
-Readymade boilerplate setup with all the best practices to kick start your npm/node module development.
+Dynamodb doesn't like empty string, this will recursively drill through all the props with empty strings and remove them by default or replace them with a user defined string
 
-Happy hacking =)
+# Usage
 
-# Features
+```JS
 
-* **ES6/ESNext** - Write _ES6_ code and _Babel_ will transpile it to ES5 for backwards compatibility
-* **Test** - _Mocha_ with _Istanbul_ coverage
-* **Lint** - Preconfigured _ESlint_ with _Airbnb_ config
-* **CI** - _TravisCI_ configuration setup
-* **Minify** - Built code will be minified for performance
+const { normalize } = require('@ninjakttty/dynamodb-object-normalizer');
 
-# Commands
-- `npm run clean` - Remove `lib/` directory
-- `npm test` - Run tests with linting and coverage results.
-- `npm test:only` - Run tests without linting or coverage.
-- `npm test:watch` - You can even re-run tests on file changes!
-- `npm test:prod` - Run tests with minified code.
-- `npm run test:examples` - Test written examples on pure JS for better understanding module usage.
-- `npm run lint` - Run ESlint with airbnb-config
-- `npm run cover` - Get coverage report for your code.
-- `npm run build` - Babel will transpile ES6 => ES5 and minify the code.
-- `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
+const item = {
+  firstName: 'Yuri',
+  lastName: '',
+  age: 23,
+  job: {
+    title: 'developer',
+    eprop: '',
+    rank: 10,
+    coworkers: ['Frank', 'Gary', 'Mark'],
+  },
+};
+
+console.log(normalize(item));
+/*
+{ firstName: 'Yuri',
+  age: 23,
+  job:
+   { title: 'developer',
+     rank: 10,
+     coworkers: [ 'Frank', 'Gary', 'Mark' ] } }
+*/
+
+console.log(normalize(item, { replaceWith: 'empty' }));
+/*
+{ firstName: 'Yuri',
+  lastName: 'empty',
+  age: 23,
+  job:
+   { title: 'developer',
+     eprop: 'empty',
+     rank: 10,
+     coworkers: [ 'Frank', 'Gary', 'Mark' ] } }
+*/
+
+```
 
 # Installation
-Just clone this repo and remove `.git` folder.
 
+```JS
+npm i @ninjakttty/dynamodb-object-normalizer
+```
 
 # License
 
-MIT © Dinesh Pandiyan
+MIT © Yuri Parsons
